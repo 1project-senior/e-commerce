@@ -18,13 +18,13 @@ module.exports = (connection, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      isAdmin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false, // Default: not an admin 
+      role: {
+        type: DataTypes.ENUM("user", "admin"),
+        defaultValue: "user",
       },
       address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        
       },
       phone: {
         type: DataTypes.INTEGER,

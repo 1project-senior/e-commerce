@@ -1,4 +1,4 @@
-// const { where } = require("sequelize");
+
 const {Products,User}=require("../modules/database")
 
 module.exports = {
@@ -50,16 +50,10 @@ getByCtagory:async (req,res) => {
 
 addProduct: async (req, res) => {
     try {
-        const {name,description,price,stock,image} = req.body
-        const UserId = req.user 
         
-
-        if (!name || !description || !price || !stock ||!image ) 
-            {
-            return res.status(400).send({ message: "All fields are required " })
-        }
-        const newproduct = await Products.create({ name,description,price,stock,image,UserId }
-        )
+        const body=req.body
+        const newproduct = await Products.create(body)
+        
         res.json(newproduct)
     } catch (error) {
         console.error("Error adding product:", error)
