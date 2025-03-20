@@ -8,6 +8,8 @@ import Blog from "./Components/Blog.jsx";
 import Home from "./Pages/Home.jsx";
 import Cart from "./Components/Cart.jsx";
 import AddProduct from "./Components/AddProduct.jsx";
+import Checkout from "./Components/Checkout.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -23,9 +25,11 @@ function App() {
             <Route path="/Blog" element={<Blog />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/Add-product" element={<AddProduct />} />
+            <Route path="/Checkout" element={<Checkout />} />
           </Route>
         </Routes>
       </BrowserRouter>
+
     </>
   );
 }
