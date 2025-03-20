@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import Checkout from './Checkout';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   // Sample cart data (replace with data from your backend or state management)
   const [cartItems, setCartItems] = useState([
     {
@@ -37,6 +39,12 @@ const Cart = () => {
 
   // Calculate total price
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+
+  // Handle "Next" button click
+  const handleNext = () => {
+    // Navigate to the Checkout page
+    navigate('/checkout');
+  };
 
   return (
     <div className="container mt-5">
@@ -89,9 +97,15 @@ const Cart = () => {
           <div className="text-end mt-4">
             <h4>Total: ${totalPrice.toFixed(2)}</h4>
           </div>
+
+          {/* Next Button */}
+          <div className="text-end mt-4">
+            <button className="btn btn-primary" onClick={handleNext}>
+              Next
+            </button>
+          </div>
         </div>
       )}
-      <Checkout/>
     </div>
   );
 };
