@@ -1,13 +1,24 @@
+import {  useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
+import {  useParams } from "react-router";
 
-const ProductDetails = ({ product }) => {
-  if (!product) {
-    return <div>Product not found.</div>;
-  }
+
+const ProductDetails = () => {
+  const {id} = useParams();
+  const { data : Products , isSuccess, error  } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await axios.get("http://localhost:3000/api/products/getall");
+      return res.data;
+    }
+  });
+  const product = isSuccess && Products?.find(product => product.id === +id);
 
   return (
+   
     <div className="container my-5">
-      <div className="row g-5">
+     {isSuccess && <div className="row g-5">
         <div className="col-md-6">
           <img
             src={product.image}
@@ -43,8 +54,9 @@ const ProductDetails = ({ product }) => {
             <li>Made from the best materials sourced</li>
           </ul>
         </div>
-      </div>
+      </div>}
     </div>
+    
   );
 };
 

@@ -6,7 +6,9 @@ module.exports = {
         const category= await Category.findAll()
         res.json(category)
       }catch(error){
-       console.log("err",error);
+   res.status(500).json(error)
+   
+      
        
       }
     },
@@ -22,11 +24,13 @@ module.exports = {
        });
        
       }catch (error) {
-
-   
+      
+   res.status(500).json(error)
      }
     }
 
+  };
 
-}
+
+
   

@@ -17,9 +17,9 @@ module.exports = {
 
     register: async (req, res) => {
         try {
-            const { email, name, password } = req.body;
+            const { email, password } = req.body;
 
-            if (!email || !name || !password) {
+            if (!email ||  !password) {
                 return res.status(400).send({ message: "All fields are required" });
             }
 
@@ -37,7 +37,7 @@ module.exports = {
             const newUser = await User.create({
                 email: normalizedEmail,
                 password: hashedPassword,
-                name
+               
             });
 
             return res.status(201).send({
@@ -45,7 +45,7 @@ module.exports = {
                 user: {
                     id: newUser.id,
                     email: newUser.email,
-                    name: newUser.name
+                   
                 }
             });
 

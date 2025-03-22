@@ -104,7 +104,8 @@ console.error("Error updating product:", error);
 res.status(500).json({ error: "Internal server error" });
 }
 
-},
+}
+
 
 
 
