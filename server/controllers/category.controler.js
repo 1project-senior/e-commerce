@@ -12,10 +12,10 @@ module.exports = {
     },
   
     addcategory: async (req, res) => {
-       const {CategoryName}=req.body
+       const {body}=req.body
       try{
        
-       const newcategory= await Category.create({CategoryName})
+       const newcategory= await Category.create({body})
        res.status(201).send({
          success: "category is created succefully",
          category: newcategory,
