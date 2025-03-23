@@ -8,6 +8,8 @@ const categories = [
   { id: 2, name: "Kitchen" },
   { id: 3, name: "Bedroom" },
   { id: 4, name: "Accessories" },
+  { id: 5, name: "Outdoor" },
+  { id: 6, name: "Office" },
 ];
 
 const Shop = () => {

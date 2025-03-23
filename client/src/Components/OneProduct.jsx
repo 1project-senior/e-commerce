@@ -18,7 +18,7 @@ const OneProduct = ({ e, i}) => {
   // }
   const handleAddingToCart = ()=>{
     // const quantity = 1; 
-    // addToCart(productId, quantity);
+    // addToCart(UserId,productId, quantity);
     console.log("clicked")
   }
 

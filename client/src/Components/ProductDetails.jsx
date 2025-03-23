@@ -47,7 +47,7 @@ const ProductDetails = () => {
             />
           </div>
 
-          <button className="btn btn-primary btn-lg w-100">Buy now</button>
+          <button className="btn btn-primary btn-lg w-100" onClick={()=>{console.log("hi")}}>Buy now</button>
 
           <ul className="mt-4">
             <li>Free shipping included</li>
