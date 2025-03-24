@@ -6,27 +6,31 @@ module.exports = {
         const category= await Category.findAll()
         res.json(category)
       }catch(error){
-       console.log("err",error);
+   res.status(500).json(error)
+   
+      
        
       }
     },
   
     addcategory: async (req, res) => {
-       const {CategoryName}=req.body
+       const body=req.body
       try{
        
-       const newcategory= await Category.create({CategoryName})
+       const newcategory= await Category.create(body)
        res.status(201).send({
          success: "category is created succefully",
          category: newcategory,
        });
        
       }catch (error) {
-   console.log("err",error);
-   
+      
+   res.status(500).json(error)
      }
     }
 
+  };
 
-}
+
+
   
