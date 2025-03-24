@@ -64,7 +64,7 @@ const AddProduct = () => {
       alert('Failed to add product.');
     } finally {
       setLoading(false);
-    }
+    }  
   };
 
   return (

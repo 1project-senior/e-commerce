@@ -42,8 +42,12 @@ const Cart = () => {
 
   // Handle "Next" button click
   const handleNext = () => {
-    // Navigate to the Checkout page
-    navigate('/checkout');
+    navigate('/checkout', {
+      state: {
+        cartItems,
+        totalPrice,
+      },
+    });
   };
 
   return (
