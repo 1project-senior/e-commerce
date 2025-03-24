@@ -1,65 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import "../Styles/Resetpass.css";
+import { useParams } from "react-router-dom";
 
 const ResetPassword = () => {
-  const { token } = useParams();
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const { token } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
     try {
-      const response = await axios.post(`http://localhost:3000/api/user/reset-password/${token}`, { password });
-      setMessage(response.data.message);
-      setError("");
-      setTimeout(() => navigate("/login"), 3000); // Redirect to login after 3 seconds
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to reset password");
-      setMessage("");
+      const res = await axios.post(`http://localhost:3000/api/user/reset-password/${token}`, { password });
+      setMessage(res.data.message);
+    } catch (error) {
+      setMessage("Error resetting password");
     }
   };
 
   return (
-    <div className="reset-password-container">
-      <h2>Reset Password</h2>
-      {message && <div className="alert alert-success">{message}</div>}
-      {error && <div className="alert alert-danger">{error}</div>}
-
+    <div>
+      <h1>Reset Password</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            type="password"
-            className="form-control"
-            placeholder="New Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Confirm New Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Reset Password
-        </button>
+        <input
+          type="password"
+          placeholder="Enter new password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Submit</button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
 };

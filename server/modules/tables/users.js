@@ -29,6 +29,14 @@ module.exports = (connection, DataTypes) => {
       phone: {
         type: DataTypes.INTEGER,
       
+      },
+      resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
       }
     }
     

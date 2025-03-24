@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const { where } = require("sequelize");
+const sendEmail= require ("../Utils/sendEmail")
 
 module.exports = {
     getAllUsers: async (req, res) => {
@@ -104,6 +105,72 @@ module.exports = {
 
 
 
+// Forgot Password
+  ForgotPassword : async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "10m",
+    });
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+    const message = `You requested a password reset. Click the link to reset your password: ${resetUrl}`;
+
+    await sendEmail({
+      email: user.email,
+      subject: "Password Reset Request",
+      message,
+    });
+
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending email" });
+  }
+},
+
+// Reset Password
+ResetPassword : async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findOne({
+      where: {
+        id: decoded.id,
+        resetPasswordToken: token,
+        resetPasswordExpire: { [Op.gt]: Date.now() },
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpire = null;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    res.status(500).json({ message: "Error resetting password" });
+  }
+},
+
+
+
 
 // getuserbyid:async (req,res) => {
 //     const {id}=req.parms 
@@ -117,57 +184,57 @@ module.exports = {
     
 // },
 
-      forgetpass :async (req, res) => {
-        const { email } = req.body;
-        try {
-          // Correct query with a where clause
-          const user = await User.findOne({ where: { email } });
-          if (!user) {
-            return res.status(404).json({ message: "User not found" });
-          }
+//       forgetpass :async (req, res) => {
+//         const { email } = req.body;
+//         try {
+//           // Correct query with a where clause
+//           const user = await User.findOne({ where: { email } });
+//           if (!user) {
+//             return res.status(404).json({ message: "User not found" });
+//           }
       
-          // Generate reset token and save it
-          const resetToken = crypto.randomBytes(20).toString("hex");
-          user.resetPasswordToken = resetToken;
-          user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-          await user.save();
+//           // Generate reset token and save it
+//           const resetToken = crypto.randomBytes(20).toString("hex");
+//           user.resetPasswordToken = resetToken;
+//           user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+//           await user.save();
       
-          // Generate the reset link
-          const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
-          res.status(200).json({ resetLink, message: "Reset link generated successfully" });
-        } catch (err) {
-          console.error("Error in forgot-password:", err);
-          res.status(500).json({ message: "Failed to generate reset link" });
-        }
-      },
+//           // Generate the reset link
+//           const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+//           res.status(200).json({ resetLink, message: "Reset link generated successfully" });
+//         } catch (err) {
+//           console.error("Error in forgot-password:", err);
+//           res.status(500).json({ message: "Failed to generate reset link" });
+//         }
+//       },
 
-   Resetpass: async (req, res) => {
-    const { token } = req.params;
-    const { password } = req.body;
+//    Resetpass: async (req, res) => {
+//     const { token } = req.params;
+//     const { password } = req.body;
   
-    try {
-      const user = await User.findOne({ 
-        where:{
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() },
-        }
-      });
+//     try {
+//       const user = await User.findOne({ 
+//         where:{
+//             resetPasswordToken: token,
+//             resetPasswordExpires: { $gt: Date.now() },
+//         }
+//       });
   
-      if (!user) {
-        return res.status(400).json({ message: "Invalid or expired token" });
-      }
+//       if (!user) {
+//         return res.status(400).json({ message: "Invalid or expired token" });
+//       }
   
-      user.password = password; // Hash the password before saving in a real app
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
-      await user.save();
+//       user.password = password; // Hash the password before saving in a real app
+//       user.resetPasswordToken = undefined;
+//       user.resetPasswordExpires = undefined;
+//       await user.save();
   
-      res.status(200).json({ message: "Password reset successfully" });
-    } catch (err) {
-      res.status(500).json({ message: "Failed to reset password" });
-    }
+//       res.status(200).json({ message: "Password reset successfully" });
+//     } catch (err) {
+//       res.status(500).json({ message: "Failed to reset password" });
+//     }
   
-}
+// }
 
 
 }

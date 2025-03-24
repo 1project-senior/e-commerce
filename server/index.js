@@ -5,12 +5,15 @@ const App = express();
 const port = 3000;
 const db = require("./modules/database");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const productesroutes = require("./routers/products.router.js");
 const userrouter=require("./routers/user.router")
 const categoryrouter= require("./routers/category.router")
 const cartRouter = require("./routers/cart.router.js");
 const paymentRouter = require("./routers/payments.router.js");
 
+
+dotenv.config();
 App.use(express.json());
 App.use(cors());
 
