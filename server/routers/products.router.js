@@ -4,7 +4,7 @@ const {getAllproducts,getOne,getByCtagory, addProduct,deleteProduct,updateProduc
 
 
 Router.get("/getall",getAllproducts)
-Router.get("/:name",getOne)
+Router.get("/:id",getOne)
 Router.get("/cat/:id",getByCtagory)
 Router.post("/add",addProduct)
 Router.delete("/:id",deleteProduct)

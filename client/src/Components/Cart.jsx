@@ -1,46 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+// import './Cart.css'; // Assuming you'll create this file for styling
 
 const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Sample cart data (replace with data from your backend or state management)
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'This is a sample product description.',
-      price: 10,
-      stock: 5,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'This is another sample product description.',
-      price: 20,
-      stock: 3,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      name: 'Product 3',
-      description: 'Yet another sample product description.',
-      price: 15,
-      stock: 10,
-      image: 'https://via.placeholder.com/150',
-    },
-  ]);
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/cart/get/1'); // Adjust UserId as needed
+        setCartItems(response.data);
+        console.log(response.data, "🍾🍾🍾");
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
 
-  // Function to remove a product from the cart
-  const handleRemoveProduct = (productId) => {
-    setCartItems(cartItems.filter((item) => item.id !== productId));
-  };
+    fetchCartData();
+  }, []);
 
   // Calculate total price
-  const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+  const totalPrice = cartItems.reduce((sum, item) => sum + parseFloat(item.price), 0).toFixed(2);
 
-  // Handle "Next" button click
+  // Handle navigation to checkout
   const handleNext = () => {
     navigate('/checkout', {
       state: {
@@ -50,65 +38,71 @@ const Cart = () => {
     });
   };
 
+  // Handle removing a product from the cart
+  const handleRemoveProduct = (productId) => {
+    setCartItems(cartItems.filter((item) => item.id !== productId));
+  };
+
+  if (loading) {
+    return <div className="loading">Loading cart data...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
+
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Cart</h1>
-
-      {/* Cart Items */}
+    <div className="cart-container">
+      <h2>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <div className="text-center">
-          <p>Your cart is empty.</p>
-        </div>
+        <p className="empty-cart">Your cart is empty.</p>
       ) : (
-        <div>
-          {cartItems.map((item) => (
-            <div key={item.id} className="card mb-3">
-              <div className="row g-0">
-                {/* Product Image */}
-                <div className="col-md-2">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="img-fluid rounded-start"
-                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                  />
-                </div>
-
-                {/* Product Details */}
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">{item.name}</h5>
-                    <p className="card-text">{item.description}</p>
-                    <p className="card-text">Price: ${item.price}</p>
-                    <p className="card-text">Stock: {item.stock}</p>
-                  </div>
-                </div>
-
-                {/* Remove Button */}
-                <div className="col-md-2 d-flex align-items-center justify-content-end">
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleRemoveProduct(item.id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Total Price */}
-          <div className="text-end mt-4">
-            <h4>Total: ${totalPrice.toFixed(2)}</h4>
-          </div>
-
-          {/* Next Button */}
-          <div className="text-end mt-4">
-            <button className="btn btn-primary" onClick={handleNext}>
+        <>
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.description}</td>
+                  <td>${item.price}</td>
+                  <td>{item.stock}</td>
+                  <td>
+                    {/* <img
+                      src={item.image}
+                      alt={item.name}
+                      className="cart-image"
+                      onError={(e) => (e.target.src = 'https://via.placeholder.com/50')}
+                    /> */}
+                  </td>
+                  <td>
+                    <button
+                      className="remove-btn"
+                      onClick={() => handleRemoveProduct(item.id)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="cart-footer">
+            <p className="total-price">Total: ${totalPrice}</p>
+            <button className="next-btn" onClick={handleNext}>
               Next
             </button>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

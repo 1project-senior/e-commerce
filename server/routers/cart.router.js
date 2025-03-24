@@ -5,10 +5,10 @@ const {
   getAllCartProducts,
   removeProduct,
   updateCartProducts,
+  
 } = require("../controllers/cart.controler");
 
-Router.get("/get", getAllCartProducts);
-
+Router.get("/get/:UserId", getAllCartProducts);
 Router.post("/add", addProducttoCart);
 Router.delete("/remove", removeProduct);
 Router.put("/change", updateCartProducts);

@@ -30,7 +30,8 @@ module.exports = (connection, DataTypes) => {
         type: DataTypes.INTEGER,
       
       }
-    }
+    },
+    {timestamps:false}
     
     );
     return User;

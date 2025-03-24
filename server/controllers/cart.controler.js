@@ -1,26 +1,35 @@
-const { cart } = require("../modules/database.js");
+const { cart,Product } = require("../modules/database.js");
+const db = require("../modules/database.js");
+
 module.exports = {
-  getAllCartProducts: async (req, res) => {
+   getAllCartProducts : async (req, res) => {
     try {
-      const { UserId } = req.body;
-      
+      const { UserId } = req.params;
+  
       if (!UserId) {
         return res.status(400).json({ message: "UserId is required" });
       }
-
-      const cartProducts = await cart.findAll({ where: { UserId } });
-      
-      if (!cartProducts || cartProducts.length === 0) {
+  
+      const user = await db.User.findByPk(UserId, {
+        include: [{
+          model: db.Products,
+          through: { attributes: [] }, // Exclude junction table attributes if not needed
+          attributes: ['id', 'name', 'description', 'price', 'stock', 'image'],
+        }],
+      });
+  
+      if (!user || !user.Products || user.Products.length === 0) {
         return res.status(404).json({ message: "No products found in cart" });
       }
-
-      res.status(200).json(cartProducts);
+  
+      res.status(200).json(user.Products);
     } catch (error) {
       console.log("Error in getAllCartProducts:", error);
       res.status(500).json({ message: "Error fetching cart products", error: error.message });
     }
-  },
-
+  }
+  
+,
 
 
 
@@ -58,7 +67,7 @@ module.exports = {
     } catch (error) {
       console.log("err",error);
       
-      res.status(500).json({ message: "Error adding product to cart", error });
+      res.status(500).json(error );
     }
   },
   updateCartProducts: async (req, res) => {
