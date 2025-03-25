@@ -1,8 +1,10 @@
-const { cart,Product } = require("../modules/database.js");
-const db = require("../modules/database.js");
-
+const { cart, Product, User } = require("../modules/database");
+const db = require("../modules/database");
 module.exports = {
-   getAllCartProducts : async (req, res) => {
+  /**
+   * Get all cart products for a user
+   */
+  getAllCartProducts : async (req, res) => {
     try {
       const { UserId } = req.params;
   
@@ -10,97 +12,112 @@ module.exports = {
         return res.status(400).json({ message: "UserId is required" });
       }
   
-      const user = await db.User.findByPk(UserId, {
+      console.log(UserId, "userid");
+  
+      const cartItems = await db.cart.findAll({
+        where: { UserId }, // Case-sensitive; ensure it matches your cart table
         include: [{
-          model: db.Products,
-          through: { attributes: ['quantity'] }, // Include quantity from cart table
-          attributes: ['id', 'name', 'description', 'price', 'stock', 'image'],
+          model: db.Products, // Use db.Products instead of Product
+          attributes: ['id', 'name', 'price', 'image'],
         }],
       });
   
-      if (!user || !user.Products || user.Products.length === 0) {
-        return res.status(404).json({ message: "No products found in cart" });
+      if (!cartItems.length) {
+        return res.status(200).json([]);
       }
   
-      // Map the response to combine product data with quantity
-      const cartProducts = user.Products.map((product) => ({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        stock: product.stock,
-        image: product.image,
-        quantity: product.cart.quantity, // Access quantity from the through table
+      const formattedItems = cartItems.map(item => ({
+        id: item.Product.id,
+        name: item.Product.name,
+        price: item.Product.price,
+        image: item.Product.image,
+        quantity: item.quantity,
       }));
   
-      res.status(200).json(cartProducts);
+      res.status(200).json(formattedItems);
     } catch (error) {
-      console.log("Error in getAllCartProducts:", error);
-      res.status(500).json({ message: "Error fetching cart products", error: error.message });
-    }
-  }
-  
-,
-
-
-
-removeProduct: async (req, res) => {
-  try {
-    const { UserId } = req.params; // Get from URL
-    const { ProductId } = req.body; // Get from body
-
-    await cart.destroy({
-      where: { UserId, ProductId },
-    });
-    
-    res.status(200).json({ message: "Product removed from cart" });
-    
-  } catch (error) {
-    console.log("err",error);
-    res.status(500).json(error);
-  }
-},,
-  
-  addProducttoCart: async (req, res) => {
-    try {
-      const { UserId, ProductId, quantity } = req.body;
-
-      // Check if the product is already in the cart
-      const existingProduct = await cart.findOne({ where: { UserId, ProductId } });
-
-      if (existingProduct) {
-        // Update the quantity if product exists
-        await existingProduct.update({ quantity: existingProduct.quantity + quantity });
-        return res.status(200).json({ message: "Product quantity updated in cart" });
-      }
-
-      // If product does not exist, create a new cart entry
-      await cart.create({ UserId, ProductId, quantity });
-      res.status(201).json({ message: "Product added to cart" });
-
-    } catch (error) {
-      console.log("err",error);
-      
-      res.status(500).json(error );
+      console.error("Error:", error);
+      res.status(500).json({ message: "Error fetching cart products" });
     }
   },
+
+  /**
+   * Add product to cart
+   */
+  addProductToCart: async (req, res) => {
+    try {
+      const { UserId, ProductId, quantity = 1 } = req.body;
+
+      if (!UserId || !ProductId) {
+        return res.status(400).json({ message: "UserId and ProductId are required" });
+      }
+
+      const [cartItem, created] = await cart.findOrCreate({
+        where: { UserId, ProductId },
+        defaults: { quantity }
+      });
+
+      if (!created) {
+        await cartItem.increment('quantity', { by: quantity });
+      }
+
+      res.status(201).json({ 
+        message: "Product added to cart",
+        cartItem
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ message: "Error adding product to cart" });
+    }
+  },
+
+  /**
+   * Remove product from cart
+   */
+  removeProduct: async (req, res) => {
+    try {
+      const { ProductId } = req.params;
+      const UserId = req.body.UserId || 1; // Default to 1 for testing
+
+      const result = await cart.destroy({
+        where: { UserId, ProductId }
+      });
+
+      if (!result) {
+        return res.status(404).json({ message: "Product not found in cart" });
+      }
+
+      res.status(200).json({ message: "Product removed from cart" });
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ message: "Error removing product" });
+    }
+  },
+
+  /**
+   * Update cart product quantity
+   */
   updateCartProducts: async (req, res) => {
     try {
       const { UserId, ProductId, quantity } = req.body;
 
-      // Check if the product exists in the cart
-      const existingProduct = await cart.findOne({ where: { UserId, ProductId } });
+      if (!UserId || !ProductId || !quantity) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
 
-      if (!existingProduct) {
+      const [affectedRows] = await cart.update(
+        { quantity },
+        { where: { UserId, ProductId } }
+      );
+
+      if (!affectedRows) {
         return res.status(404).json({ message: "Product not found in cart" });
       }
 
-      // Update the quantity of the existing product
-      await existingProduct.update({ quantity });
-
-      res.status(200).json({ message: "Cart product updated successfully" });
+      res.status(200).json({ message: "Cart updated successfully" });
     } catch (error) {
-      res.status(500).json({ message: "Error updating cart product", error });
+      console.error("Error:", error);
+      res.status(500).json({ message: "Error updating cart" });
     }
   }
-};
+}

@@ -6,15 +6,22 @@ const App = express();
 const port = 3000;
 const db = require("./modules/database");
 const cors = require("cors");
+require("dotenv").config();
+
 const productesroutes = require("./routers/products.router.js");
 const userrouter=require("./routers/user.router")
 const categoryrouter= require("./routers/category.router")
 const cartRouter = require("./routers/cart.router.js");
 const paymentRouter = require("./routers/payments.router.js");
 
+
+
+// ضع هذه الخطوات في البداية
+App.use(bodyParser.json());
 App.use(express.json());
 App.use(cors());
 
+// ثم الرواتر
 App.use("/api/products", productesroutes);
 App.use("/api/user",userrouter)
 App.use("/api/category" ,categoryrouter)

@@ -25,9 +25,8 @@ const Cart = () => {
   }, []);
 
   useEffect(() => {
-    // Calculate total price whenever cartItems changes
     const total = cartItems.reduce((sum, item) => {
-      return sum + (parseFloat(item.price) * (item.quantity || 1));
+      return sum + (parseFloat(item.price) * (item.quantity || 1))
     }, 0);
     setTotalPrice(total.toFixed(2));
   }, [cartItems]);
@@ -44,10 +43,13 @@ const Cart = () => {
 
   const handleRemoveProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/cart/remove/${id}`);
+      await axios.delete(`http://localhost:3000/api/cart/remove/${id}`, {
+        data: { ProductId: id }
+      });
       setCartItems(items => items.filter(item => item.id !== id));
     } catch (err) {
       console.error('Error removing product:', err);
+      setError('Failed to remove item. Please try again.');
     }
   };
 
