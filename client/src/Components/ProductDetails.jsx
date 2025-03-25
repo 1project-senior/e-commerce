@@ -9,7 +9,7 @@ const ProductDetails = () => {
   const { data : Products , isSuccess, error  } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3000/api/products/getall");
+      const res = await axios.get("http://localhost:3005/api/products/getall");
       return res.data;
     }
   });

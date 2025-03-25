@@ -14,13 +14,9 @@ function LoginPage({ onClose }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  //   if (user.role === 'admin') {
-  //     navigate('/admin');
-  // } else {
-  //     navigate('/home');
-  // }
+
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", loginData);
+      const response = await axios.post("http://localhost:3005/api/user/login", loginData);
       localStorage.setItem("token", response.data.token);
       
       navigate("/");

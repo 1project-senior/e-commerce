@@ -30,14 +30,14 @@ module.exports = (connection, DataTypes) => {
         type: DataTypes.INTEGER,
       
       },
-      resetPasswordToken: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      resetPasswordExpires: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      }
+      // resetPasswordToken: {
+      //   type: DataTypes.STRING,
+      //   allowNull: true,
+      // },
+      // resetPasswordExpires: {
+      //   type: DataTypes.DATE,
+      //   allowNull: true,
+      // }
     }
     
     );

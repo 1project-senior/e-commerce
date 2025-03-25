@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
-import "../Styles/Forgetpass.css" // Using the dedicated CSS file
+import "../Styles/Forgetpass.css" 
 
 function ForgotPassword() {
   const navigate = useNavigate()
@@ -14,10 +14,10 @@ function ForgotPassword() {
   const handleForgotPassword = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("http://localhost:3000/api/user/forgotpassword", { email })
+      const response = await axios.post("http://localhost:3005/api/user/forgotpassword", { email })
 
       if (response.data.success) {
-        // You can use SweetAlert here if you want
+        
         alert("Password reset link has been sent to your email.")
         navigate("/")
       }
