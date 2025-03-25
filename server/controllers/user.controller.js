@@ -21,9 +21,9 @@ module.exports = {
 
     register: async (req, res) => {
         try {
-            const { email, password } = req.body;
+            const { email, password,name } = req.body;
 
-            if (!email || !password) {
+            if (!email || !password || !name) {
                 return res.status(400).send({ message: "All fields are required" });
             }
 
@@ -41,6 +41,7 @@ module.exports = {
             const newUser = await User.create({
                 email: normalizedEmail,
                 password: hashedPassword,
+                name:name
                 
             });
 
@@ -63,7 +64,7 @@ module.exports = {
         try {
             const { email, password ,name} = req.body;
 
-            if (!email || !password) {
+            if (!email || !password || !name) {
                 return res.status(400).send({ message: "Email and password are required" });
             }
 
@@ -167,55 +168,16 @@ module.exports = {
           res.status(400).json({ message: "Invalid or expired token" });
       }
   },
-  changePassword: async (req, res) => {
-      const { userId, currentPassword, newPassword } = req.body;
-
-      try {
-          const user = await User.findByPk(userId);
-          if (!user) {
-              return res.status(404).json({ message: "User not found" });
-          }
-
-          // Verify the current password
-          const isMatch = await bcrypt.compare(currentPassword, user.password);
-          if (!isMatch) {
-              return res.status(400).json({ message: "Current password is incorrect" });
-          }
-
-          // Hash the new password
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
-          user.password = hashedPassword;
-          await user.save();
-
-          res.json({ success: true, message: "Password updated successfully" });
-      } catch (error) {
-          console.error('Error changing password:', error);
-          res.status(500).json({ message: "Error changing password", error: error.message });
-      }
-  },
-
-
-
-
-
-
-
-
-// getuserbyid:async (req,res) => {
-//     const {id}=req.parms 
-//     try {
-//         const user=await User.findOne({where:{id}}) 
-//         res.json(user)
-//     } catch (error) {
-//         console.log("err",error);
+  
+getuserbyid:async (req,res) => {
+    try {
+        const user=await User.findOne({where:{ id: req.params.id}}) 
+        res.json(user)
+    } catch (error) {
+        console.log("err",error);
         
-//     }
-    
-// },
-
-//     
-
-
+    }
+}
 }
 
 

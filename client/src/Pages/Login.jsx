@@ -1,4 +1,3 @@
-"use client";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,14 +9,20 @@ import "../Styles/Login.css";
 
 function LoginPage({ onClose }) {
   const navigate = useNavigate();
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [loginData, setLoginData] = useState({ name :"" , email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+  //   if (user.role === 'admin') {
+  //     navigate('/admin');
+  // } else {
+  //     navigate('/home');
+  // }
     try {
       const response = await axios.post("http://localhost:3000/api/user/login", loginData);
       localStorage.setItem("token", response.data.token);
+      
       navigate("/");
     } catch (error) {
       setErrorMessage("Invalid email or password");
@@ -44,6 +49,16 @@ function LoginPage({ onClose }) {
               {errorMessage && <div className="alert alert-danger py-2 text-center">{errorMessage}</div>}
 
               <form onSubmit={handleLogin}>
+              <div className="mb-3">
+                  <input
+                    type="name"
+                    className="form-control form-control-lg rounded-pill py-2 px-3"
+                    placeholder="name"
+                    value={loginData.name}
+                    onChange={(e) => setLoginData({ ...loginData, name: e.target.value })}
+                    required
+                  />
+                </div>
                 <div className="mb-3">
                   <input
                     type="email"
