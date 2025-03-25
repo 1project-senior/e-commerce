@@ -7,6 +7,7 @@ import './Register.css';
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    name:'',
     email: '',
     password: '',
     acceptTerms: false
@@ -31,6 +32,7 @@ const Register = () => {
 
     try {
       const response = await axios.post('http://localhost:3000/api/user/register', {
+        name:formData.name,
         email: formData.email,
         password: formData.password
       });
@@ -60,6 +62,17 @@ const Register = () => {
               )}
 
               <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                  <input
+                    type="name"
+                    className="form-control custom-input"
+                    placeholder="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 <div className="form-group">
                   <input
                     type="email"

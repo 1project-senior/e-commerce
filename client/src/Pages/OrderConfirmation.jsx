@@ -1,123 +1,46 @@
-"use client"
+
+
 import { useNavigate } from "react-router-dom"
+import "bootstrap/dist/css/bootstrap.min.css"
+import "../Styles/Orderconfermation.css"
 
 const OrderConfirmation = () => {
   const navigate = useNavigate()
 
   const handleDone = () => {
-    navigate("/") // Navigate to home page when done
+    navigate("/") 
   }
 
+ 
+
   return (
-    <div className="bg-white">
-      {/* Navigation */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <div className="container">
-          <a className="navbar-brand fw-bold fs-4" href="/">
-            Oasis
-          </a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="/">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/shop">
-                  Shop
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/categories">
-                  Categories
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
-      {/* Breadcrumb */}
-      <div className="container mt-3">
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb small">
-            <li className="breadcrumb-item">
-              <a href="/" className="text-decoration-none text-secondary">
-                Homepage
-              </a>
-            </li>
-            <li className="breadcrumb-item">
-              <a href="/categories" className="text-decoration-none text-secondary">
-                Categories
-              </a>
-            </li>
-            <li className="breadcrumb-item">
-              <a href="/categories/sitting-room" className="text-decoration-none text-secondary">
-                Sitting Room
-              </a>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Luxe Armchair - Left Arm Chair
-            </li>
-          </ol>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="container py-5">
-        <div className="row">
-          {/* Product Image */}
-          <div className="col-lg-6 mb-4 mb-lg-0">
-            <div className="position-relative">
-              <img
-                src="/armchair.jpg"
-                alt="Modern armchair"
-                className="img-fluid rounded"
-                style={{ maxHeight: "400px", objectFit: "cover" }}
-              />
-              <button
-                className="btn btn-sm btn-light position-absolute top-0 end-0 m-3 rounded-circle"
-                style={{ width: "40px", height: "40px" }}
-              >
-                <i className="bi bi-arrows-fullscreen"></i>
-              </button>
-            </div>
-          </div>
-
-          {/* Confirmation Content */}
-          <div className="col-lg-6 d-flex flex-column justify-content-center">
-            <div className="text-center">
-              {/* Tree Image */}
-              <div className="mb-4">
+    <div className="login-overlay">
+      <div className="login-slide">
+        <div className="login-form-container">
+      
+          <div className="card border-0 shadow-none" style={{ maxWidth: "400px", width: "100%" }}>
+            <div className="card-body p-4">
+              <div className="text-center mb-4">
                 <img
-                  src="/tree-illustration.png"
+
+                  src="https://i.etsystatic.com/23246521/r/il/e581a7/4477921254/il_1588xN.4477921254_m1k4.jpg"
                   alt="Decorative tree illustration"
-                  style={{ width: "180px", height: "auto" }}
+                  className="img-fluid mb-3"
+                  style={{ maxHeight: "150px", objectFit: "contain", borderRadius: "10px" }}
                 />
+                <h3 className="fw-normal">Your Order is Confirmed!</h3>
+                <p className="text-muted">
+                  Thank you for shopping with us! Your beautiful new furniture is on its way and will be with you soon.
+                </p>
               </div>
-
-              {/* Confirmation Message */}
-              <h2 className="fw-bold mb-3">Your Order is Confirmed!</h2>
-              <p className="text-muted mb-4">
-                Thank you for shopping with us! Your beautiful new furniture is on its way and will be with you soon.
-                Get ready to transform your space!
-              </p>
-
-              {/* Done Button */}
               <button
                 onClick={handleDone}
-                className="btn btn-lg py-3 px-5 rounded-pill text-white"
-                style={{
-                  backgroundColor: "#7B68EE",
-                  minWidth: "200px",
-                }}
+                className="btn btn-lg w-100 rounded-pill py-2 mb-3"
+                style={{ backgroundColor: "#8a7bff", color: "white" }}
               >
                 Done
               </button>
+
             </div>
           </div>
         </div>
