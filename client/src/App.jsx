@@ -13,7 +13,7 @@ import LoginPage from "./Pages/Login.jsx";
 import Register from "./Pages/Register.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
 import OrderConfirmation from "./Pages/OrderConfirmation.jsx";
-import  Resetpass  from "./Pages/Resetpass.jsx"
+import Resetpass from "./Pages/Resetpass.jsx";
 import ProductDetails from "./Components/ProductDetails.jsx";
 
 const queryClient = new QueryClient();
@@ -22,16 +22,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-      
         <Navbar />
         <Routes>
-          
           <Route element={<Layout />}>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/forgot-password" element={<ForgotPassword/>}/>
-          <Route path="/reset-password" element={<Resetpass />} />
-          <Route path="/order-confirmation" element={<OrderConfirmation />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<Resetpass />} />
+            <Route path="/order-confirmation" element={<OrderConfirmation />} />
             <Route path="/" element={<Home />} />
             <Route path="/Categories" element={<Categories />} />
             <Route path="/Shop-page" element={<Shop />} />
