@@ -8,7 +8,7 @@ const {register ,getAllUsers,login ,getuserbyid,forgotPassword,resetPassword}=re
 Router.post("/register", register)
 Router.post("/login", login)
 Router.get("/getall",getAllUsers)
-// Router.get("/:id",getuserbyid)
+Router.get("/:id",getuserbyid)
 Router.post("/forgotpassword",forgotPassword)
 Router.post("/resetpassword",resetPassword)
 

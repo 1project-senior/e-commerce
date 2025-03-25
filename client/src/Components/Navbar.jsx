@@ -79,6 +79,12 @@ function Navbar() {
           >
             Add Product
           </button>
+          <button
+            className="btn btn-link nav-link text-dark"
+            onClick={() => navigate("/register")}
+          >
+           Get Started
+          </button>
         </div>
       </div>
     </nav>
