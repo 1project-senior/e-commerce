@@ -44,19 +44,22 @@ module.exports = {
 
 
 
-  removeProduct: async (req, res) => {
-    try {
-      const { UserId, ProductId } = req.body;
+removeProduct: async (req, res) => {
+  try {
+    const { UserId } = req.params; // Get from URL
+    const { ProductId } = req.body; // Get from body
 
-      await cart.destroy({
-        where: { UserId, ProductId },
-      });
-    } catch (error) {
-      console.log("err",error);
-      
-      res.status(500).json(error);
-    }
-  },
+    await cart.destroy({
+      where: { UserId, ProductId },
+    });
+    
+    res.status(200).json({ message: "Product removed from cart" });
+    
+  } catch (error) {
+    console.log("err",error);
+    res.status(500).json(error);
+  }
+},,
   
   addProducttoCart: async (req, res) => {
     try {

@@ -7,6 +7,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +15,6 @@ const Cart = () => {
       try {
         const response = await axios.get('http://localhost:3000/api/cart/get/1');
         setCartItems(response.data);
-        console.log(response.data, "🍾🍾🍾");
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -23,6 +23,14 @@ const Cart = () => {
     };
     fetchCartData();
   }, []);
+
+  useEffect(() => {
+    // Calculate total price whenever cartItems changes
+    const total = cartItems.reduce((sum, item) => {
+      return sum + (parseFloat(item.price) * (item.quantity || 1));
+    }, 0);
+    setTotalPrice(total.toFixed(2));
+  }, [cartItems]);
 
   const updateQuantity = (id, change) => {
     setCartItems(items =>
@@ -34,13 +42,14 @@ const Cart = () => {
     );
   };
 
-  const handleRemoveProduct = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+  const handleRemoveProduct = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/cart/remove/${id}`);
+      setCartItems(items => items.filter(item => item.id !== id));
+    } catch (err) {
+      console.error('Error removing product:', err);
+    }
   };
-
-  const totalPrice = cartItems.reduce((sum, item) => 
-    sum + (parseFloat(item.price) * (item.quantity || 1)), 0
-  ).toFixed(2);
 
   const handleNext = () => {
     navigate('/checkout', {
