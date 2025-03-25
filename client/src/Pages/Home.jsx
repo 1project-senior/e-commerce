@@ -1,8 +1,30 @@
 import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Login from "./Login.jsx"
 
 const HomePage = () => {
   const navigate = useNavigate(); // Initialize the navigate hook
+  const [showLogin, setShowLogin] = useState(false);
+    const toggleLogin = () => {
+    setShowLogin(!showLogin);
+  
+
+  return (
+    <div>
+      <nav className="navbar navbar-light bg-light">
+        <div className="container-fluid">
+          <span className="navbar-brand">Home</span>
+          <button className="btn btn-outline-primary" onClick={toggleLogin}>
+            Login
+          </button>
+        </div>
+      </nav>
+      <h1>This is home</h1>
+      {showLogin && <Login onClose={toggleLogin} />}
+    </div>
+  );
+};
 
   const handleCategoryClick = (category) => {
     navigate("/Shop-page"); // Navigate to the /Shop-page path
