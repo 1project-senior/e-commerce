@@ -12,7 +12,7 @@ module.exports = (connection, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+       
       },
       password: {
         type: DataTypes.STRING,
@@ -29,6 +29,14 @@ module.exports = (connection, DataTypes) => {
       phone: {
         type: DataTypes.INTEGER,
       
+      },
+      resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
       }
     }
     
