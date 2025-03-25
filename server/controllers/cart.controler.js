@@ -13,7 +13,7 @@ module.exports = {
       const user = await db.User.findByPk(UserId, {
         include: [{
           model: db.Products,
-          through: { attributes: [] }, // Exclude junction table attributes if not needed
+          through: { attributes: ['quantity'] }, // Include quantity from cart table
           attributes: ['id', 'name', 'description', 'price', 'stock', 'image'],
         }],
       });
@@ -22,7 +22,18 @@ module.exports = {
         return res.status(404).json({ message: "No products found in cart" });
       }
   
-      res.status(200).json(user.Products);
+      // Map the response to combine product data with quantity
+      const cartProducts = user.Products.map((product) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        image: product.image,
+        quantity: product.cart.quantity, // Access quantity from the through table
+      }));
+  
+      res.status(200).json(cartProducts);
     } catch (error) {
       console.log("Error in getAllCartProducts:", error);
       res.status(500).json({ message: "Error fetching cart products", error: error.message });

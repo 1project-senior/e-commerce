@@ -56,11 +56,12 @@ const AddProduct = () => {
       };
 
       // Send product data to your backend
-      const backendResponse = await axios.post('http://localhost:3001/api/products/add', productData);
+      const backendResponse = await axios.post('http://localhost:3000/api/products/add', productData);
       console.log('Backend Response:', backendResponse.data);
 
       alert('Product added successfully!');
     } catch (error) {
+      console.log(error)
       console.error('Error uploading image or saving product:', error);
       alert('Failed to add product.');
     } finally {

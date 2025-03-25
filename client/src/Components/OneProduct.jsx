@@ -9,29 +9,27 @@ const OneProduct = ({ e, i }) => {
     navigate(`/Shop-page/${e.id}`);
   };
 
-  const addToCart = async (userId, productId, quantity) => {
+  const addToCart = async (userId, ProductId, quantity) => {
     try {
       await axios.post(`http://localhost:3000/api/cart/add`, { 
-        userId, 
-        productId, 
+        UserId:userId, 
+        ProductId, 
         quantity 
       });
       // You might want to add some feedback here, like a toast notification
       console.log("Product added to cart successfully");
     } catch (error) {
       console.error("Error adding product to cart:", error);
-     
+      // Handle error (show error message, etc.)
     }
   };
 
-  const handleAddingToCart = (e) => {
+  const handleAddingToCart = () => {
     // In a real app, you would get the userId from auth context or localStorage
-    const userId = 1; // Replace with actual user ID
-    const productId = e.id;
+    const UserId = 1; // Replace with actual user ID
+    const ProductId = e.id;
     const quantity = 1;
-    console.log(e.id,"🤬🤬🤬");
-    
-    addToCart(userId, productId, quantity);
+    addToCart(UserId, ProductId, quantity);
   };
 
   return (
@@ -49,7 +47,7 @@ const OneProduct = ({ e, i }) => {
         <p className="card-text">${e.price}</p>
         <button
           className="btn btn-outline-primary"
-          onClick={handleAddingToCart(e)}
+          onClick={handleAddingToCart}
         >
           Add to cart →
         </button>
@@ -58,4 +56,4 @@ const OneProduct = ({ e, i }) => {
   );
 };
 
-export default OneProduct
+export default OneProduct;
