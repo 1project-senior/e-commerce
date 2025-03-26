@@ -73,12 +73,7 @@ function Navbar() {
             <FaShoppingCart size={22} />
           </button>
 
-          <button
-            className="btn btn-primary rounded-pill px-4 py-2"
-            onClick={() => navigate("/Add-product")}
-          >
-            Add Product
-          </button>
+         
           <button
             className="btn btn-link nav-link text-dark"
             onClick={() => navigate("/register")}
