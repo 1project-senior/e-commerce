@@ -9,6 +9,9 @@ import Blog from "./Components/Blog.jsx";
 import Home from "./Pages/Home.jsx";
 import Cart from "./Components/Cart.jsx";
 import AddProduct from "./Components/AddProduct.jsx";
+import Checkout from "./Components/Checkout.jsx";
+import Payment from "./Components/Payment.jsx"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from "./Pages/Login.jsx";
 import Register from "./Pages/Register.jsx";
 import ForgotPassword from "./Pages/ForgotPassword.jsx";
@@ -36,7 +39,14 @@ function App() {
             <Route path="/Blog" element={<Blog />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/Add-product" element={<AddProduct />} />
-            <Route path="/Shop-page/:id" element={<ProductDetails />} />
+            {/* <Route path="/" element={<Checkout />} /> */}
+            <Route path="/payment" element={<Payment />} />
+            {/* <Route path="/Cart" element={<Cart />} /> */}
+            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/Shop-page/:id"
+              element={<ProductDetails  />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
