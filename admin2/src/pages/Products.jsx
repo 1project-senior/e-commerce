@@ -6,17 +6,16 @@ function AllProducts() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:3005/api/products/getall", {
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
       });
-      
+
       console.log("fetchProducts response:", response.data);
-      
+
       if (Array.isArray(response.data)) {
         setProduct(response.data);
       } else if (response.data.products && Array.isArray(response.data.products)) {
@@ -37,35 +36,39 @@ function AllProducts() {
     fetchProducts();
   }, []);
 
-  if (loading) return <h2>Loading products...</h2>;
-  if (error) return <h2>{error}</h2>;
-
-
-
-
-
+  if (loading) return <h2 className="text-2xl font-medium text-slate-900 dark:text-slate-50">Loading products...</h2>;
+  if (error) return <h2 className="text-2xl font-medium text-red-500">{error}</h2>;
 
   return (
-    <div>
-      <h2>All Products</h2>
+    <div className="p-6">
+      <h2 className="text-3xl font-semibold text-slate-900 dark:text-slate-50 mb-4">All Products</h2>
       {products.length === 0 ? (
-        <p>No products found</p>
+        <p className="text-lg text-slate-600 dark:text-slate-400">No products found</p>
       ) : (
-        products.map((el) => (
-          <div key={el._id || el.id} className="el-card">
-            <h3>{el.name}</h3>
-            <p>Price: ${el.price}</p>
-            <p>Category: {el.category}</p>
-            {el.image && <img src={el.image} alt={el.name} style={{ width: '100px' }} />}
-            <p>Description: {el.description}</p>
-          </div>
-        ))
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {products.map((el) => (
+            <div
+              key={el._id || el.id}
+              className="card border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-900"
+            >
+              <div className="card-body">
+                <h3 className="card-title text-xl font-medium text-slate-900 dark:text-slate-50">{el.name}</h3>
+                <p className="text-slate-700 dark:text-slate-400">Price: ${el.price}</p>
+                <p className="text-slate-700 dark:text-slate-400">Category: {el.category}</p>
+                {el.image && (
+                  <img
+                    src={el.image}
+                    alt={el.name}
+                    className="w-full h-auto rounded-lg mt-2"
+                  />
+                )}
+                <p className="text-slate-700 dark:text-slate-400 mt-2">Description: {el.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-     
-      
-    
     </div>
-    
   );
 }
 

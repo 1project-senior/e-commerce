@@ -6,6 +6,7 @@ import Layout from "@/routes/layout";
 import DashboardPage from "@/routes/dashboard/page";
 import Allusers from "./pages/Allusers.jsx"; 
 import Product from "./pages/Products.jsx";
+import AddProduct from "./pages/AddProduct.jsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -43,7 +44,7 @@ function App() {
                 },
                 {
                     path: "new-product",
-                    element: <h1 className="title">New Product</h1>,
+                    element: <AddProduct/>,
                 },
                 {
                     path: "inventory",

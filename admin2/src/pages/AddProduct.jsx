@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
@@ -61,7 +60,7 @@ const AddProduct = () => {
 
       alert('Product added successfully!');
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.error('Error uploading image or saving product:', error);
       alert('Failed to add product.');
     } finally {
@@ -70,15 +69,15 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Add Product</h1>
-      <form onSubmit={handleSubmit} className="card p-4 shadow">
+    <div className="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-center text-3xl font-semibold mb-6 text-slate-900 dark:text-slate-50">Add Product</h1>
+      <form onSubmit={handleSubmit} className="card">
         {/* Product Name */}
-        <div className="mb-3">
-          <label className="form-label">Product Name:</label>
+        <div className="mb-4">
+          <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Product Name:</label>
           <input
             type="text"
-            className="form-control"
+            className="input"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             required
@@ -86,11 +85,11 @@ const AddProduct = () => {
         </div>
 
         {/* Product Price */}
-        <div className="mb-3">
-          <label className="form-label">Product Price:</label>
+        <div className="mb-4">
+          <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Product Price:</label>
           <input
             type="number"
-            className="form-control"
+            className="input"
             value={productPrice}
             onChange={(e) => setProductPrice(e.target.value)}
             required
@@ -98,11 +97,11 @@ const AddProduct = () => {
         </div>
 
         {/* Product Description */}
-        <div className="mb-3">
-          <label className="form-label">Product Description:</label>
+        <div className="mb-4">
+          <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Product Description:</label>
           <input
             type="text"
-            className="form-control"
+            className="input"
             value={productDescription}
             onChange={(e) => setProductDescription(e.target.value)}
             required
@@ -110,11 +109,11 @@ const AddProduct = () => {
         </div>
 
         {/* Product Stock */}
-        <div className="mb-3">
-          <label className="form-label">Product Stock:</label>
+        <div className="mb-4">
+          <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Product Stock:</label>
           <input
             type="number"
-            className="form-control"
+            className="input"
             value={productStock}
             onChange={(e) => setProductStock(e.target.value)}
             required
@@ -122,11 +121,11 @@ const AddProduct = () => {
         </div>
 
         {/* Product Image */}
-        <div className="mb-3">
-          <label className="form-label">Product Image:</label>
+        <div className="mb-4">
+          <label className="block text-slate-700 dark:text-slate-400 font-medium mb-1">Product Image:</label>
           <input
             type="file"
-            className="form-control"
+            className="input"
             accept="image/*"
             onChange={handleImageUpload}
             required
@@ -135,8 +134,7 @@ const AddProduct = () => {
             <img
               src={imagePreview}
               alt="Product Preview"
-              className="img-thumbnail mt-3"
-              style={{ width: '100px', height: '100px' }}
+              className="mt-3 w-24 h-24 rounded-lg object-cover"
             />
           )}
         </div>
@@ -144,7 +142,7 @@ const AddProduct = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="btn btn-primary w-100"
+          className={`btn w-full ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white py-2 px-4 rounded-lg`}
           disabled={loading}
         >
           {loading ? 'Adding Product...' : 'Add Product'}
