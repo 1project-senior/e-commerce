@@ -22,7 +22,9 @@ module.exports = (connection, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false
       }
-    }
+    },
+    {timestamps:false}
+
     
     );
     return Products;

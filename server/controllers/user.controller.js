@@ -21,6 +21,7 @@ module.exports = {
 
     register: async (req, res) => {
         try {
+        
             const { email, password,name } = req.body;
 
             if (!email || !password || !name) {
@@ -41,6 +42,8 @@ module.exports = {
             const newUser = await User.create({
                 email: normalizedEmail,
                 password: hashedPassword,
+                name:name,
+               
                 name:name
                 
             });
@@ -56,7 +59,7 @@ module.exports = {
 
         } catch (error) {
             console.error("Registration error:", error);
-            return res.status(500).send({ message: "Internal server error" });
+            return res.status(500).send(error);
         }
     },
 
