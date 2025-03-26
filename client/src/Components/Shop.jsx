@@ -64,7 +64,13 @@ const Shop = () => {
       </p>
       <div className="text-center mb-3">
         <small>
-          <a href="/">Homepage</a> &gt; <a href="/Categories">Categories</a>
+          <a href="/" class="text-decoration-none">
+            Homepage
+          </a>{" "}
+          &gt;
+          <a href="/Categories" class="text-decoration-none">
+            Categories
+          </a>
         </small>
       </div>
 

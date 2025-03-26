@@ -12,7 +12,7 @@ const OneProduct = ({ e, i }) => {
 
   const addToCart = async (userId, ProductId, quantity) => {
     try {
-      const response = await axios.post(`http://localhost:3000/api/cart/add`, {
+      const response = await axios.post(`http://localhost:3005/api/cart/add`, {
         UserId: userId,
         ProductId,
         quantity,
