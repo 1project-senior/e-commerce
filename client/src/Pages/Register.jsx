@@ -31,7 +31,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/user/register', {
+      const response = await axios.post('http://localhost:3005/api/user/register', {
         name:formData.name,
         email: formData.email,
         password: formData.password
@@ -45,11 +45,17 @@ const Register = () => {
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
+  const handleClose = () => {
+    navigate("/")
+  }
 
   return (
     <div className="register-overlay">
       <div className="register-slide">
         <div className="register-container">
+        <button className="close-btn" onClick={handleClose}>
+            ×
+          </button>
           <div className="register-left">
             <div className="form-container">
               <h2>Create an account</h2>
