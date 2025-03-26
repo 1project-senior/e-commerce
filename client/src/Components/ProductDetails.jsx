@@ -1,4 +1,4 @@
-import {  useQuery, useQueryClient } from "@tanstack/react-query";
+import {  useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import {  useParams } from "react-router";
@@ -6,7 +6,7 @@ import {  useParams } from "react-router";
 
 const ProductDetails = () => {
   const {id} = useParams();
-  const { data : Products , isSuccess, error  } = useQuery({
+  const { data : Products , isSuccess  } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
       const res = await axios.get("http://localhost:3005/api/products/getall");
