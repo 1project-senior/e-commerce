@@ -30,7 +30,7 @@ const ResetPassword = () => {
 
     try {
       setIsLoading(true)
-      const response = await axios.post("http://localhost:3000/api/user/resetpassword", { token, newPassword })
+      const response = await axios.post("http://localhost:3005/api/user/resetpassword", { token, newPassword })
 
       if (response.data.success) {
         Swal.fire({
