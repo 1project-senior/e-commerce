@@ -24,12 +24,17 @@ function LoginPage({ onClose }) {
       setErrorMessage("Invalid email or password");
     }
   };
+  const handleClose = () => {
+    navigate("/")
+  }
 
   return (
     <div className="login-overlay">
       <div className="login-slide">
         <div className="login-form-container">
-          <button className="close-btn" onClick={onClose}>×</button>
+        <button className="close-btn" onClick={handleClose}>
+            ×
+          </button>
           <div className="card border-0 shadow-none" style={{ maxWidth: "400px", width: "100%" }}>
             <div className="card-body p-4">
               <div className="text-center mb-4">

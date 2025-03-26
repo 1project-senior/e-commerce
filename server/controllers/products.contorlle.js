@@ -1,5 +1,5 @@
 
-const {Products,User}=require("../modules/database")
+const {Products}=require("../modules/database")
 
 module.exports = {
 getAllproducts:async (req,res) => {

@@ -45,11 +45,17 @@ const Register = () => {
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
+  const handleClose = () => {
+    navigate("/")
+  }
 
   return (
     <div className="register-overlay">
       <div className="register-slide">
         <div className="register-container">
+        <button className="close-btn" onClick={handleClose}>
+            ×
+          </button>
           <div className="register-left">
             <div className="form-container">
               <h2>Create an account</h2>
