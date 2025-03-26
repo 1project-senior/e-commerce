@@ -15,9 +15,9 @@ getAllproducts:async (req,res) => {
 
 getOne: async (req, res) => {
     try {
-        const  name  = req.params.name
+        const  id  = req.params.id
         const oneproduct = await Products.findOne({
-            where: { name:name },
+            where: { id },
           
         })
         

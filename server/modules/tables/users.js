@@ -38,7 +38,8 @@ module.exports = (connection, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true,
       }
-    }
+    },
+    {timestamps:false}
     
     );
     return User;
