@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password":"root",
+    "password": "root",
     "database": "furniture",
-    "host": "127.0.0.1",
+    "host": "mysql",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password":"root",
+    "password": "root",
     "database": "furniture",
-    "host": "127.0.0.1",
+    "host": "mysql",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password":"root",
+    "password": "root",
     "database": "furniture",
-    "host": "127.0.0.1",
+    "host": "mysql",
     "dialect": "mysql"
   }
 }

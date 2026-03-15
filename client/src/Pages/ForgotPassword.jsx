@@ -4,7 +4,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
-import "../Styles/Forgetpass.css" 
+import "../Styles/Forgetpass.css"
+import { API_BASE_URL } from "../config" 
 
 function ForgotPassword() {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ function ForgotPassword() {
   const handleForgotPassword = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("http://localhost:3005/api/user/forgotpassword", { email })
+      const response = await axios.post(`${API_BASE_URL}/api/user/forgotpassword`, { email })
 
       if (response.data.success) {
         

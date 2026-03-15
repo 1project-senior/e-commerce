@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 function AllUsers() {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ function AllUsers() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:3005/api/user/getall");
+      const response = await axios.get(`${API_BASE_URL}/api/user/getall`);
       console.log("Fetched Users:", response.data);
       
       // Check if response.data is an array

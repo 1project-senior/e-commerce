@@ -2,6 +2,7 @@ import {  useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import {  useParams } from "react-router";
+import { API_BASE_URL } from "../config";
 
 
 const ProductDetails = () => {
@@ -9,7 +10,7 @@ const ProductDetails = () => {
   const { data : Products , isSuccess  } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3005/api/products/getall");
+      const res = await axios.get(`${API_BASE_URL}/api/products/getall`);
       return res.data;
     }
   });

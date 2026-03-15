@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { X, Minus, Plus } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -13,7 +14,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const response = await axios.get('http://localhost:3005/api/cart/get/1');
+        const response = await axios.get(`${API_BASE_URL}/api/cart/get/1`);
         setCartItems(response.data);
         setLoading(false);
       } catch (err) {
@@ -43,7 +44,7 @@ const Cart = () => {
 
   const handleRemoveProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:3005/api/cart/remove/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/cart/remove/${id}`, {
         data: { ProductId: id }
       });
       setCartItems(items => items.filter(item => item.id !== id));

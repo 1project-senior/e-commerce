@@ -6,6 +6,7 @@ import axios from "axios"
 import Swal from "sweetalert2"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "../Styles/Resetpass.css"
+import { API_BASE_URL } from "../config"
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams()
@@ -30,7 +31,7 @@ const ResetPassword = () => {
 
     try {
       setIsLoading(true)
-      const response = await axios.post("http://localhost:3005/api/user/resetpassword", { token, newPassword })
+      const response = await axios.post(`${API_BASE_URL}/api/user/resetpassword`, { token, newPassword })
 
       if (response.data.success) {
         Swal.fire({

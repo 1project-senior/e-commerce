@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import OneProduct from "./OneProduct";
+import { API_BASE_URL } from "../config";
 
 const categories = [
   { id: 1, name: "Sitting Room" },
@@ -23,7 +24,7 @@ const Shop = () => {
   } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3005/api/products/getall");
+      const res = await axios.get(`${API_BASE_URL}/api/products/getall`);
       return res.data;
     },
   });

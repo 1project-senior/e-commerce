@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const AddProduct = () => {
   const [productName, setProductName] = useState('');
@@ -55,7 +56,7 @@ const AddProduct = () => {
       };
 
       // Send product data to your backend
-      const backendResponse = await axios.post('http://localhost:3005/api/products/added', productData);
+      const backendResponse = await axios.post(`${API_BASE_URL}/api/products/added`, productData);
       console.log('Backend Response:', backendResponse.data);
 
       alert('Product added successfully!');

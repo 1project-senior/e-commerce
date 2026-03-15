@@ -1,7 +1,12 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-const connection = new Sequelize("furniture", "root", "root", {
-  host: "localhost",
+const dbHost = process.env.DB_HOST || "localhost";
+const dbName = process.env.DB_NAME || "furniture";
+const dbUser = process.env.DB_USER || "root";
+const dbPassword = process.env.DB_PASSWORD || "root";
+
+const connection = new Sequelize(dbName, dbUser, dbPassword, {
+  host: dbHost,
   dialect: "mysql",
   define: {
     timestamps: true,

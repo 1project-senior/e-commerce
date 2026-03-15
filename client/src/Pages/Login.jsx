@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import "../Styles/Login.css";
+import { API_BASE_URL } from "../config";
 
 function LoginPage({ onClose }) {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function LoginPage({ onClose }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3005/api/user/login", loginData);
+      const response = await axios.post(`${API_BASE_URL}/api/user/login`, loginData);
       localStorage.setItem("token", response.data.token);
       
       navigate("/");

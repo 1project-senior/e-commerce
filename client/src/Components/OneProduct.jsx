@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import { API_BASE_URL } from "../config";
 
 const OneProduct = ({ e, i }) => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const OneProduct = ({ e, i }) => {
 
   const addToCart = async (userId, ProductId, quantity) => {
     try {
-      const response = await axios.post(`http://localhost:3005/api/cart/add`, {
+      const response = await axios.post(`${API_BASE_URL}/api/cart/add`, {
         UserId: userId,
         ProductId,
         quantity,
